@@ -1,0 +1,5 @@
+node_modules
+dist-demo
+*.log
+
+# dist/ VAI pro git: e o que os projetos instalam direto do GitHub

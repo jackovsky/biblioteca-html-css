@@ -1,0 +1,210 @@
+/* ==========================================================
+   Carregamento Neon — CSS puro, sem bibliotecas externas.
+   Troque as cores do projeto sobrescrevendo as variáveis --cn-*
+   no :root (ou em qualquer elemento pai).
+   ========================================================== */
+
+:root {
+  --cn-neon: #00f0ff;          /* cor principal (ciano) */
+  --cn-neon-2: #ff2bd6;        /* cor de destaque (magenta) */
+  --cn-fundo: #0b0b14;
+  --cn-superficie: #151526;
+  --cn-esqueleto: #1d1d33;
+  --cn-esqueleto-brilho: #2b2b4a;
+  --cn-texto: #e8e8ff;
+  --cn-texto-suave: #9a9ac0;
+  --cn-brilho: 0 0 6px var(--cn-neon), 0 0 18px color-mix(in srgb, var(--cn-neon) 55%, transparent);
+  --cn-velocidade: 1s;
+}
+
+/* ---------- Spinner ---------- */
+.cn-spinner {
+  --cn-tam: 32px;
+  width: var(--cn-tam);
+  height: var(--cn-tam);
+  border-radius: 50%;
+  border: calc(var(--cn-tam) / 8) solid color-mix(in srgb, var(--cn-neon) 18%, transparent);
+  border-top-color: var(--cn-neon);
+  border-right-color: var(--cn-neon-2);
+  box-shadow: var(--cn-brilho);
+  animation: cn-girar var(--cn-velocidade) linear infinite;
+  flex: none;
+}
+.cn-spinner--p { --cn-tam: 16px; }
+.cn-spinner--g { --cn-tam: 56px; }
+
+@keyframes cn-girar { to { transform: rotate(360deg); } }
+
+/* ---------- Dots pulsantes ---------- */
+.cn-pontos {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.cn-pontos > span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cn-neon);
+  box-shadow: var(--cn-brilho);
+  animation: cn-pulsar calc(var(--cn-velocidade) * 1.2) ease-in-out infinite;
+}
+.cn-pontos > span:nth-child(2) { animation-delay: .15s; background: var(--cn-neon-2); }
+.cn-pontos > span:nth-child(3) { animation-delay: .3s; }
+.cn-pontos--p > span { width: 6px; height: 6px; }
+
+@keyframes cn-pulsar {
+  0%, 80%, 100% { transform: scale(.55); opacity: .35; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+
+/* ---------- Skeleton screen ---------- */
+.cn-esqueleto {
+  display: block;
+  background: linear-gradient(90deg,
+      var(--cn-esqueleto) 0%,
+      var(--cn-esqueleto-brilho) 40%,
+      color-mix(in srgb, var(--cn-neon) 22%, var(--cn-esqueleto-brilho)) 50%,
+      var(--cn-esqueleto-brilho) 60%,
+      var(--cn-esqueleto) 100%);
+  background-size: 300% 100%;
+  border-radius: 6px;
+  animation: cn-varrer calc(var(--cn-velocidade) * 1.6) ease-in-out infinite;
+}
+.cn-esqueleto--circulo { border-radius: 50%; }
+
+@keyframes cn-varrer {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
+
+.cn-esqueleto-texto { display: grid; gap: 10px; }
+
+.cn-esqueleto-tabela {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.cn-esqueleto-tabela td,
+.cn-esqueleto-tabela th { padding: 6px 10px; }
+.cn-esqueleto-tabela th .cn-esqueleto { opacity: .7; }
+
+/* ---------- Barra de progresso (ações com etapas) ---------- */
+.cn-progresso { display: grid; gap: 8px; width: 100%; }
+.cn-progresso__trilho {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--cn-esqueleto);
+  overflow: hidden;
+}
+.cn-progresso__barra {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cn-neon), var(--cn-neon-2));
+  box-shadow: var(--cn-brilho);
+  transition: width .35s ease;
+}
+/* sem valor conhecido: barra correndo de um lado pro outro */
+.cn-progresso--indeterminado .cn-progresso__barra {
+  width: 35% !important;
+  animation: cn-correr calc(var(--cn-velocidade) * 1.4) ease-in-out infinite;
+}
+@keyframes cn-correr {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(290%); }
+}
+.cn-progresso__info {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: .85rem;
+  color: var(--cn-texto-suave);
+}
+.cn-progresso__etapas {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: .78rem;
+  color: var(--cn-texto-suave);
+  flex-wrap: wrap;
+}
+.cn-progresso__etapas li::before { content: "○ "; }
+.cn-progresso__etapas li.cn-feita { color: var(--cn-neon); }
+.cn-progresso__etapas li.cn-feita::before { content: "● "; }
+.cn-progresso__etapas li.cn-atual { color: var(--cn-texto); font-weight: 600; }
+.cn-progresso__etapas li.cn-atual::before { content: "◉ "; color: var(--cn-neon-2); }
+
+/* ---------- Texto de status (aparece depois de 2 s) ---------- */
+.cn-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cn-texto-suave);
+  font-size: .9rem;
+  animation: cn-surgir .25s ease both;
+}
+@keyframes cn-surgir {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Botão que dispara a ação ---------- */
+.cn-botao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border: 1px solid var(--cn-neon);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--cn-neon) 10%, transparent);
+  color: var(--cn-texto);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow .2s, background .2s, opacity .2s;
+}
+.cn-botao:hover:not(:disabled) {
+  box-shadow: var(--cn-brilho);
+  background: color-mix(in srgb, var(--cn-neon) 18%, transparent);
+}
+.cn-botao:focus-visible { outline: 2px solid var(--cn-neon-2); outline-offset: 3px; }
+.cn-botao:disabled { cursor: not-allowed; opacity: .75; }
+.cn-botao[aria-busy="true"] { cursor: progress; }
+
+/* ---------- Carregador de página / sobreposição ---------- */
+.cn-sobreposicao {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  background: color-mix(in srgb, var(--cn-fundo) 88%, transparent);
+  backdrop-filter: blur(3px);
+  color: var(--cn-texto);
+  animation: cn-surgir .2s ease both;
+}
+.cn-sobreposicao--local { position: absolute; border-radius: inherit; }
+
+/* texto só para leitor de tela */
+.cn-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* quem pediu menos movimento no sistema continua vendo o indicador, só mais calmo */
+@media (prefers-reduced-motion: reduce) {
+  .cn-spinner { animation-duration: 2.5s; }
+  .cn-pontos > span,
+  .cn-esqueleto,
+  .cn-progresso--indeterminado .cn-progresso__barra { animation-duration: 3s; }
+}

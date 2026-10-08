@@ -1,0 +1,64 @@
+/* Estilo só da página de demonstração (não vai na biblioteca) */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--cn-fundo);
+  color: var(--cn-texto);
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+.demo {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+.demo header h1 { margin: 0 0 6px; font-size: 2rem; }
+.demo header h1 span { color: var(--cn-neon); text-shadow: var(--cn-brilho); }
+.demo header p { margin: 0; color: var(--cn-texto-suave); }
+
+.demo-secao {
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--cn-superficie);
+  border: 1px solid color-mix(in srgb, var(--cn-neon) 15%, transparent);
+}
+.demo-secao h2 { margin: 0 0 16px; font-size: 1rem; color: var(--cn-neon-2); }
+
+.demo-linha { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+.demo-coluna { display: grid; gap: 16px; justify-items: start; }
+.demo-coluna > .cn-progresso, .demo-coluna > table { width: 100%; }
+.demo-ok { color: var(--cn-neon); }
+
+.demo-form { display: grid; gap: 14px; }
+.demo-form fieldset { display: flex; flex-wrap: wrap; gap: 10px; border: 0; padding: 0; margin: 0; }
+.demo-form input {
+  flex: 1 1 200px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--cn-esqueleto-brilho);
+  background: var(--cn-fundo);
+  color: var(--cn-texto);
+  font: inherit;
+}
+.demo-form fieldset:disabled input { opacity: .55; }
+
+.demo-tabela { width: 100%; border-collapse: collapse; }
+.demo-tabela th, .demo-tabela td { padding: 10px; text-align: left; border-bottom: 1px solid var(--cn-esqueleto); }
+.demo-tabela th { color: var(--cn-texto-suave); font-weight: 600; font-size: .85rem; }
+
+.demo-cartao { display: flex; gap: 16px; align-items: center; }
+.demo-cartao p { margin: 6px 0 0; color: var(--cn-texto-suave); }
+.demo-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--cn-neon), var(--cn-neon-2));
+  color: var(--cn-fundo); font-weight: 800; font-size: 1.4rem;
+}
+
+@media (max-width: 600px) {
+  .demo-tabela { font-size: .85rem; }
+  .demo-tabela th, .demo-tabela td { padding: 8px 4px; }
+}
